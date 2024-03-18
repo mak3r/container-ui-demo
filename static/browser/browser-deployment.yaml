@@ -30,7 +30,7 @@ spec:
         - name: wallboard   
           env:
             - name: URL
-              value: https://google.com 
+              value: https://opensuse.org 
             - name: DISPLAY
               value: ':0'
           image: registry.opensuse.org/home/atgracey/wallboardos/15.5/firefox:latest
