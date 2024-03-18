@@ -10,7 +10,7 @@ metadata:
   name: browser-config
   namespace: x11-ui
 data:
-  url: https://opensuse.org
+  url: https://build.opensuse.org
 ---
 apiVersion: apps/v1
 kind: Deployment
