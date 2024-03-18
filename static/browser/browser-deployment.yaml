@@ -36,7 +36,7 @@ spec:
           image: registry.opensuse.org/home/atgracey/wallboardos/15.5/firefox:latest
           imagePullPolicy: Always
           securityContext:
-            runAsUser: 65535
+            runAsUser: 0
           volumeMounts:
             - mountPath: /tmp
               name: tmp
