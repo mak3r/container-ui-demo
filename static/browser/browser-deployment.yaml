@@ -3,6 +3,15 @@ kind: Namespace
 metadata:
   name: x11-ui
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: 2022-02-18T18:52:05Z
+  name: browser-config
+  namespace: x11-ui
+data:
+  url: https://opensuse.org
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -30,7 +39,10 @@ spec:
         - name: wallboard   
           env:
             - name: URL
-              value: https://opensuse.org 
+              valueFrom:
+                configMapKeyRef:
+                  name: browser-config
+                  key: url
             - name: DISPLAY
               value: ':0'
           image: registry.opensuse.org/home/atgracey/wallboardos/15.5/firefox:latest

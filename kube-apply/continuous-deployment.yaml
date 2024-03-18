@@ -1,0 +1,27 @@
+apiVersion: fleet.cattle.io/v1alpha1
+kind: ClusterGroup
+metadata:
+  name: bare-metal
+  namespace: fleet-default
+spec:
+  selector:
+    matchExpressions: []
+    matchLabels:
+      geo: ny
+---
+apiVersion: fleet.cattle.io/v1alpha1
+kind: GitRepo
+metadata:
+  name: ot-ui-demo
+  namespace: fleet-default
+spec:
+  branch: main
+  correctDrift:
+    enabled: false
+  forceSyncGeneration: 5
+  insecureSkipTLSVerify: false
+  paths:
+    - /static/browser
+  repo: https://github.com/mak3r/container-ui-demo.git
+  targets:
+    - clusterGroup: bare-metal
