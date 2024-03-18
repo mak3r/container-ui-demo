@@ -4,6 +4,8 @@ helm:
   repo: https://project-akri.github.io/akri/
   releaseName: akri
   values:
+    agent:
+      full: true
     kubernetesDistro: k3s
     udev:
       discovery:
