@@ -12,8 +12,7 @@ helm:
         enabled: true
         host:
           udev: /run/udev
-    discoveryHandler:
-      name: udev
-      discoveryDetails: |+
-        udevRules:
-        -  'SUBSYSTEM=="drm", KERNEL=="card0"'
+      configuration:
+        discoveryDetails:
+          udevRules:
+            - 'SUBSYSTEM=="drm"\, KERNEL=="card0"'

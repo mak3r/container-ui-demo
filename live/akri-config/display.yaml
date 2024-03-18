@@ -28,4 +28,7 @@ spec:
           emptyDir: {}
   capacity: 1
   discoveryHandler:
-    name: display
+    name: udev
+    discoveryDetails: |+
+      udevRules:
+      -  'SUBSYSTEM=="drm"\, KERNEL=="card0"'
