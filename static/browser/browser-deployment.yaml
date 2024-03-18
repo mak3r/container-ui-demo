@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: x11-ui
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: browser
+  namespace: x11-ui
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      ui: x11test
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      namespace: x11-ui
+      labels:
+        ui: x11test
+    spec:
+      containers:
+        - name: wallboard   
+          env:
+            - name: URL
+              value: https://google.com 
+            - name: DISPLAY
+              value: ':0'
+          image: registry.opensuse.org/home/atgracey/wallboardos/15.5/firefox:latest
+          imagePullPolicy: Always
+          securityContext:
+            runAsUser: 1000
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp
+            - mountPath: /home/user/
+              name: home
+            - mountPath: /root/
+              name: home
+        - name: x11
+          image: registry.opensuse.org/home/atgracey/wallboardos/15.5/x11:icewm
+          imagePullPolicy: Always
+          securityContext:
+            allowPrivilegeEscalation: true
+            privileged: true
+            readOnlyRootFilesystem: false
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp
+            - mountPath: /root
+              name: home
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - hostPath:
+            path: /tmp
+            type: ''
+          name: tmp
+        - hostPath:
+            path: /root
+            type: ''
+          name: home
