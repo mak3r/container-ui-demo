@@ -15,4 +15,4 @@ helm:
       configuration:
         discoveryDetails:
           udevRules:
-            - 'SUBSYSTEM=="drm"\, KERNEL=="card0"'
+            - 'SUBSYSTEM=="usb", KERNEL=="usb[0-9]*", ATTRS{vendor}=="0x8086"'

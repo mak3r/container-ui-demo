@@ -49,6 +49,7 @@ spec:
           imagePullPolicy: Always
           securityContext:
             runAsUser: 0
+            privileged: true
           volumeMounts:
             - mountPath: /tmp
               name: tmp
@@ -56,6 +57,8 @@ spec:
               name: home
             - mountPath: /root/
               name: home
+            - mountPath: /dev
+              name: devices
         - name: x11
           image: registry.opensuse.org/home/atgracey/wallboardos/15.5/x11:icewm
           imagePullPolicy: Always
@@ -68,6 +71,8 @@ spec:
               name: tmp
             - mountPath: /root
               name: home
+            - mountPath: /dev
+              name: devices
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
@@ -81,3 +86,7 @@ spec:
             path: /root
             type: ''
           name: home
+        - hostPath:
+            path: /dev
+            type: ''
+          name: devices
