@@ -72,7 +72,7 @@ spec:
       initContainers:
         - name: clear-tmp
           image: busybox:1.28
-          command: ['sh', '-c', "rm -r /tmp/.X11-unix; rm /home/user/.Xauthority"]
+          command: ['sh', '-c', "rm -rf /tmp/.X11-unix; rm /home/user/.Xauthority"]
           volumeMounts:
             - mountPath: /tmp
               name: tmp
