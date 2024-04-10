@@ -6,7 +6,6 @@ metadata:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  creationTimestamp: 2022-02-18T18:52:05Z
   name: browser-config
   namespace: x11-ui
 data:
@@ -25,10 +24,7 @@ spec:
     matchLabels:
       ui: x11test
   strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
+    type: Recreate
   template:
     metadata:
       namespace: x11-ui
@@ -48,7 +44,7 @@ spec:
           image: registry.opensuse.org/home/atgracey/wallboardos/15.5/firefox:latest
           imagePullPolicy: Always
           securityContext:
-            runAsUser: 0
+            runAsUser: 1000
             privileged: true
           volumeMounts:
             - mountPath: /tmp
@@ -73,6 +69,15 @@ spec:
               name: home
             - mountPath: /dev
               name: devices
+      initContainers:
+        - name: clear-tmp
+          image: busybox:1.28
+          command: ['sh', '-c', "rm -r /tmp/.X11-unix; rm /home/user/.Xauthority"]
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp
+            - mountPath: /home/user
+              name: home
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
